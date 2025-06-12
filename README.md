@@ -23,25 +23,13 @@ Aplicación web full-stack para gestionar personas con operaciones CRUD completa
 ----------------------------
 
 ```mermaid
-subgraph "Frontend - Angular 19"  
-        A[Components] --> B[Services]  
-        B --> C[NgRx Store]  
-        C --> D[Effects]  
-        D --> E[HTTP Client]  
-    end  
-      
-    subgraph "Backend - Node.js"  
-        F[Express Server] --> G[GraphQL Schema]  
-        G --> H[Resolvers]  
-        H --> I[Sequelize ORM]  
-        I --> J[SQLite Database]  
-    end  
-    
-    style A fill:#e1f5fe  
-    style F fill:#f3e5f5  
-    style J fill:#e8f5e8
-
-    E --> F  
+graph LR
+A[Angular Components] --> B[NgRx Store]
+B --> C[Effects]
+C --> D[HTTP Service]
+D --> E[GraphQL API]
+E --> F[Sequelize ORM]
+F --> G[(SQLite DB)]
 ```
 
 
@@ -59,27 +47,83 @@ subgraph "Frontend - Angular 19"
 
 ### Frontend Dependencies
 
-`jsonCopy Code{      "dependencies": {        "@angular/common": "^19.2.0",        "@angular/compiler": "^19.2.0",        "@angular/core": "^19.2.0",        "@angular/forms": "^19.2.0",        "@angular/platform-browser": "^19.2.0",        "@angular/platform-browser-dynamic": "^19.2.0",        "@angular/router": "^19.2.0",        "@ngrx/effects": "^19.2.1",        "@ngrx/entity": "^19.2.1",        "@ngrx/store": "^19.2.1",        "@ngrx/store-devtools": "^19.2.1",        "rxjs": "~7.8.0",        "tslib": "^2.3.0",        "zone.js": "~0.15.0"      },      "devDependencies": {        "@angular-devkit/build-angular": "^19.2.12",        "@angular/cli": "^19.2.12",        "@angular/compiler-cli": "^19.2.0",        "@types/jasmine": "~5.1.0",        "typescript": "~5.7.2"      }    }`  
-
-### Backend Dependencies
-
-`jsonCopy Code{      "dependencies": {        "apollo-server-express": "^3.13.0",        "cors": "^2.8.5",        "express": "^4.18.2",        "graphql": "^16.11.0",        "sequelize": "^6.37.7",        "sqlite3": "^5.1.7"      },      "devDependencies": {        "@types/cors": "^2.8.19",        "@types/express": "^5.0.3",        "@types/node": "^24.0.1",        "nodemon": "^3.1.10",        "ts-node": "^10.9.2",        "typescript": "^5.8.3"      }    }`  
+```json
+{
+  "dependencies": {
+    "@angular/common": "^19.2.0",
+    "@angular/compiler": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/forms": "^19.2.0",
+    "@angular/platform-browser": "^19.2.0",
+    "@angular/platform-browser-dynamic": "^19.2.0",
+    "@angular/router": "^19.2.0",
+    "@ngrx/effects": "^19.2.1",
+    "@ngrx/entity": "^19.2.1",
+    "@ngrx/store": "^19.2.1",
+    "@ngrx/store-devtools": "^19.2.1",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^19.2.12",
+    "@angular/cli": "^19.2.12",
+    "@angular/compiler-cli": "^19.2.0",
+    "@types/jasmine": "~5.1.0",
+    "typescript": "~5.7.2"
+  }
+}
+```
 
 📁 Estructura del Proyecto
 --------------------------
 
-`technical-exam/    ├── backend/    │   ├── src/    │   │   ├── config/database.js    │   │   ├── models/Persona.js    │   │   ├── schema/    │   │   │   ├── typeDefs.js    │   │   │   └── resolvers.js    │   │   └── index.ts    │   ├── package.json    │   └── tsconfig.json    ├── frontend/    │   ├── src/app/    │   │   ├── components/    │   │   ├── models/persona.model.ts    │   │   ├── services/persona.service.ts    │   │   ├── store/persona/    │   │   ├── app.component.ts    │   │   └── app.config.ts    │   └── package.json    └── README.md`  
+```json
+`technical-exam/ 
+├── backend/ 
+│ ├── src/ 
+│ │ ├── config/database.js 
+│ │ ├── models/Persona.js 
+│ │ ├── schema/ 
+│ │ │ ├── typeDefs.js 
+│ │ │ └── resolvers.js 
+│ │ └── index.ts 
+│ ├── package.json 
+│ └── tsconfig.json 
+├── frontend/ 
+│ ├── src/app/ 
+│ │ ├── components/ 
+│ │ ├── models/persona.model.ts 
+│ │ ├── services/persona.service.ts 
+│ │ ├── store/persona/ 
+│ │ ├── app.component.ts 
+│ │ └── app.config.ts 
+│ └── package.json 
+└── README.md`
+```
 
 🚀 Instalación y Configuración
 ------------------------------
 
 ### Backend
 
-`bashCopy Codecd backend    npm install    npm run build    npm run dev    # http://localhost:3000`  
+```json
+npm install    
+npm run build    
+npm run dev    
+# http://localhost:3000
+```
+
 
 ### Frontend
 
-`bashCopy Codecd frontend    npm install    ng serve       # http://localhost:4200`  
+```json
+frontend    
+npm install    
+ng serve       
+# http://localhost:4200
+```
+
 
 ⚡ Funcionalidades Implementadas
 -------------------------------
@@ -88,45 +132,130 @@ subgraph "Frontend - Angular 19"
 
 #### Crear Persona
 
-`graphqlCopy Codemutation CrearPersona($input: PersonaInput!) {      crearPersona(input: $input) {        id nombres apellidoPaterno apellidoMaterno direccion telefono      }    }`  
+```json
+CrearPersona($input: PersonaInput!) 
+{      
+    crearPersona(input: $input) 
+    {        
+        id 
+        nombres 
+        apellidoPaterno 
+        apellidoMaterno 
+        direccion 
+        telefono     
+    }    
+}
+```
 
 #### Listar Personas
 
-`graphqlCopy Codequery ObtenerPersonas {      personas {        id nombres apellidoPaterno apellidoMaterno direccion telefono      }    }`  
+```json
+ObtenerPersonas 
+{      
+    personas 
+    {        
+        id 
+        nombres 
+        apellidoPaterno 
+        apellidoMaterno 
+        direccion 
+        telefono      
+    }    
+}
+```
 
 #### Actualizar Persona
 
-`graphqlCopy Codemutation ActualizarPersona($id: ID!, $input: PersonaInput!) {      actualizarPersona(id: $id, input: $input) {        id nombres apellidoPaterno apellidoMaterno direccion telefono      }    }`  
+```json
+ActualizarPersona($id: ID!, $input: PersonaInput!) 
+{      
+    actualizarPersona(id: $id, input: $input) 
+    {        
+        id nombres 
+        apellidoPaterno 
+        apellidoMaterno 
+        direccion 
+        telefono      
+    }    
+}
+```
 
 #### Eliminar Persona
 
-`graphqlCopy Codemutation EliminarPersona($id: ID!) {      eliminarPersona(id: $id)    }`  
+```json
+EliminarPersona($id: ID!) 
+{      
+    eliminarPersona(id: $id)    
+}
+```
 
 📊 Diagramas Técnicos
 ---------------------
 
 ### Flujo de Datos NgRx
 
-`mermaidCopy CodesequenceDiagram        participant C as Component        participant S as Store        participant E as Effects        participant API as GraphQL API        participant DB as SQLite        C->>S: Dispatch Action        S->>E: Trigger Effect        E->>API: HTTP Request        API->>DB: SQL Query        DB-->>API: Result        API-->>E: GraphQL Response        E->>S: Success Action        S->>C: State Update`  
+```mermaid
+graph LR 
+A[Component] -- Dispatch Action --> B[Store] 
+B -- Trigger Effect --> C[Effects] 
+C -- HTTP Request --> D[GraphQL API] 
+D -- SQL Query --> E[Database] 
+E -- Result --> D 
+D -- Response --> C 
+C -- Success Action --> B 
+B -- State Update --> A
+```
 
 ### Base de Datos
 
-`mermaidCopy CodeerDiagram        PERSONA {            INTEGER id PK            STRING nombres            STRING apellidoPaterno            STRING apellidoMaterno            STRING direccion            STRING telefono            DATETIME createdAt            DATETIME updatedAt        }`  
+```mermaid
+graph LR 
+A[Persona] --> B[id: INTEGER PK] 
+A --> C[nombres: STRING] 
+A --> D[apellidoPaterno: STRING] 
+A --> E[apellidoMaterno: STRING] 
+A --> F[direccion: STRING] 
+A --> G[telefono: STRING] 
+A --> H[createdAt: DATETIME] 
+A --> I[updatedAt: DATETIME]
+```
 
 🎯 Patrones Implementados
 -------------------------
 
 ### 1\. Componentes Standalone (Angular 19)
 
-`typescriptCopy Code@Component({      selector: 'app-persona-list',      standalone: true,      imports: [CommonModule, FormsModule],      templateUrl: './persona-list.component.html'    })`  
+```json
+Code@Component({      
+    selector: 'app-persona-list',      
+    standalone: true,      
+    imports: [CommonModule, FormsModule],      
+    templateUrl: './persona-list.component.html'    
+})
+```
 
 ### 2\. NgRx con inject()
 
-`typescriptCopy Codeexport class PersonaEffects {      private actions$ = inject(Actions);      private personaService = inject(PersonaService);      loadPersonas$ = createEffect(() => {        return this.actions$.pipe(          ofType(PersonaActions.loadPersonas),          switchMap(() => this.personaService.getPersonas())        );      });    }`  
+```json
+class PersonaEffects 
+{      
+    private actions$ = inject(Actions);      
+    private personaService = inject(PersonaService);      
+    loadPersonas$ = createEffect(() => 
+    {        
+        return this.actions$.pipe(ofType(PersonaActions.loadPersonas),          
+        switchMap(() => this.personaService.getPersonas())        
+        );      
+    });    
+}
+```
 
 ### 3\. Reactive Programming
 
-`typescriptCopy Code// Búsqueda reactiva    filteredPersonas$ = combineLatest([      this.store.select(selectAllPersonas),      this.searchTerm$    ]).pipe(      map(([personas, term]) => this.filterPersonas(personas, term))    );`  
+```json
+Búsqueda reactiva    
+filteredPersonas$ = combineLatest([this.store.select(selectAllPersonas), this.searchTerm$]).pipe(map(([personas, term]) => this.filterPersonas(personas, term));
+```  
 
 🧠 Decisiones Técnicas Clave
 ----------------------------
@@ -176,11 +305,23 @@ subgraph "Frontend - Angular 19"
 
 ### Backend
 
-`bashCopy Codenpm run dev     # Desarrollo con hot reload    npm run build   # Compilar TypeScript    npm start       # Producción`  
+```json
+# Desarrollo con hot reload    
+npm run build   
+# Compilar TypeScript    
+npm start       
+# Producción
+```  
 
 ### Frontend
 
-`bashCopy Codeng serve                    # Desarrollo    ng build --prod            # Build producción    ng test                    # Tests unitarios`  
+```json
+# Desarrollo    
+ng build --prod            
+# Build producción    
+ng test                    
+# Tests unitarios
+```
 
 ### GraphQL Code Code Playground
 
