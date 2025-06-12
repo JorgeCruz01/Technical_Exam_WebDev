@@ -23,13 +23,25 @@ Aplicación web full-stack para gestionar personas con operaciones CRUD completa
 ----------------------------
 
 ```mermaid
-graph LR
-A[Angular Components] --> B[NgRx Store]
-B --> C[Effects]
-C --> D[HTTP Service]
-D --> E[GraphQL API]
-E --> F[Sequelize ORM]
-F --> G[(SQLite DB)]
+subgraph "Frontend - Angular 19"  
+        A[Components] --> B[Services]  
+        B --> C[NgRx Store]  
+        C --> D[Effects]  
+        D --> E[HTTP Client]  
+    end  
+      
+    subgraph "Backend - Node.js"  
+        F[Express Server] --> G[GraphQL Schema]  
+        G --> H[Resolvers]  
+        H --> I[Sequelize ORM]  
+        I --> J[SQLite Database]  
+    end  
+    
+    style A fill:#e1f5fe  
+    style F fill:#f3e5f5  
+    style J fill:#e8f5e8
+
+    E --> F  
 ```
 
 
@@ -164,11 +176,11 @@ F --> G[(SQLite DB)]
 
 ### Backend
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`bashCopy Codenpm run dev     # Desarrollo con hot reload    npm run build   # Compilar TypeScript    npm start       # Producción`  
+`bashCopy Codenpm run dev     # Desarrollo con hot reload    npm run build   # Compilar TypeScript    npm start       # Producción`  
 
 ### Frontend
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`bashCopy Codeng serve                    # Desarrollo    ng build --prod            # Build producción    ng test                    # Tests unitarios`  
+`bashCopy Codeng serve                    # Desarrollo    ng build --prod            # Build producción    ng test                    # Tests unitarios`  
 
 ### GraphQL Code Code Playground
 
@@ -197,4 +209,5 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 *   **Base de Datos**: SQLite con ORM Sequelize
     
 
-**Desarrollado para**: Examen Técnico Global Primex Tecnología**Tecnologías**: Angular 19, Node.js, GraphQL, SQLite, NgRx, TypeScript
+**Desarrollado para**: Examen Técnico Global Primex Tecnología
+**Tecnologías**: Angular 19, Node.js, GraphQL, SQLite, NgRx, TypeScript
