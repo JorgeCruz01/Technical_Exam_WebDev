@@ -1,0 +1,97 @@
+<!-- src/app/components/persona-form/persona-form.component.html -->
+<div class="modal-backdrop fade show"></div>
+<div class="modal d-block" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ personaId ? 'Editar' : 'Agregar' }} Persona</h5>
+        <button type="button" class="btn-close" (click)="onCancel()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="personaForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="nombres" class="form-label">Nombre(s)</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="nombres" 
+              formControlName="nombres"
+              [ngClass]="{'is-invalid': personaForm.get('nombres')?.invalid && personaForm.get('nombres')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="personaForm.get('nombres')?.errors?.['required']">
+              El nombre es requerido
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="apellidoPaterno" class="form-label">Apellido Paterno</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="apellidoPaterno" 
+              formControlName="apellidoPaterno"
+              [ngClass]="{'is-invalid': personaForm.get('apellidoPaterno')?.invalid && personaForm.get('apellidoPaterno')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="personaForm.get('apellidoPaterno')?.errors?.['required']">
+              El apellido paterno es requerido
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="apellidoMaterno" class="form-label">Apellido Materno</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="apellidoMaterno" 
+              formControlName="apellidoMaterno"
+              [ngClass]="{'is-invalid': personaForm.get('apellidoMaterno')?.invalid && personaForm.get('apellidoMaterno')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="personaForm.get('apellidoMaterno')?.errors?.['required']">
+              El apellido materno es requerido
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="direccion" 
+              formControlName="direccion"
+              [ngClass]="{'is-invalid': personaForm.get('direccion')?.invalid && personaForm.get('direccion')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="personaForm.get('direccion')?.errors?.['required']">
+              La dirección es requerida
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="telefono" 
+              formControlName="telefono"
+              [ngClass]="{'is-invalid': personaForm.get('telefono')?.invalid && personaForm.get('telefono')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="personaForm.get('telefono')?.errors?.['required']">
+              El teléfono es requerido
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          [disabled]="personaForm.invalid || loading" 
+          (click)="onSubmit()"
+        >
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

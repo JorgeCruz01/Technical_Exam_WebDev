@@ -1,0 +1,74 @@
+<!-- src/app/components/persona-list/persona-list.component.html -->
+<div class="container mt-4">
+    <h2>Lista de Personas</h2>
+    
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <div class="input-group">
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Buscar por nombre o apellido..." 
+            [(ngModel)]="searchTerm"
+          >
+          <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
+            Buscar
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 text-end">
+        <button class="btn btn-primary" (click)="onAdd()">
+          Agregar Persona
+        </button>
+      </div>
+    </div>
+  
+    <div *ngIf="loading$ | async" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  
+    <div *ngIf="error$ | async as error" class="alert alert-danger">
+      {{ error }}
+    </div>
+  
+    <table class="table table-striped" *ngIf="personas$ | async as personas">
+      <thead>
+        <tr>
+          <th>Nombre(s)</th>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let persona of filterPersonas(personas)">
+          <td>{{ persona.nombres }}</td>
+          <td>{{ persona.apellidoPaterno }}</td>
+          <td>{{ persona.apellidoMaterno }}</td>
+          <td>{{ persona.direccion }}</td>
+          <td>{{ persona.telefono }}</td>
+          <td>
+            <button class="btn btn-sm btn-info me-2" (click)="onEdit(persona.id!)">
+              Editar
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="onDelete(persona.id!)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filterPersonas(personas).length === 0">
+          <td colspan="6" class="text-center">No se encontraron personas</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <app-persona-form 
+      *ngIf="showForm" 
+      [personaId]="selectedPersonaId" 
+      (close)="onFormClose()">
+    </app-persona-form>
+  </div>
