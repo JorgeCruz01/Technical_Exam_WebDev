@@ -1,48 +1,23 @@
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import { gql } from 'apollo-server-express';
+import { personaType } from './definitions/persona.type';
+import { personaInput } from './inputs/persona.input';
+import { personaQueries } from './queries/persona.queries';
+import { personaMutations } from './mutations/persona.mutations';
+import { personaResolvers } from './resolvers/persona.resolver';
 
-// Definición del esquema GraphQL
+// Combinar todos los tipos
 const typeDefs = gql`
-  # Tipo Persona
-  type Persona {
-    id: ID!
-    nombres: String!
-    apellidoPaterno: String!
-    apellidoMaterno: String!
-    direccion: String!
-    telefono: String!
-    createdAt: String
-    updatedAt: String
-  }
-
-  # Inputs para crear y actualizar personas
-  input PersonaInput {
-    nombres: String!
-    apellidoPaterno: String!
-    apellidoMaterno: String!
-    direccion: String!
-    telefono: String!
-  }
-
-  # Queries (consultas)
-  type Query {
-    # Obtener todas las personas
-    personas: [Persona]!
-    
-    # Obtener una persona por ID
-    persona(id: ID!): Persona
-  }
-
-  # Mutations (operaciones que modifican datos)
-  type Mutation {
-    # Crear una nueva persona
-    crearPersona(input: PersonaInput!): Persona!
-    
-    # Actualizar una persona existente
-    actualizarPersona(id: ID!, input: PersonaInput!): Persona!
-    
-    # Eliminar una persona
-    eliminarPersona(id: ID!): Boolean!
-  }
+  ${personaType}
+  ${personaInput}
+  ${personaQueries}
+  ${personaMutations}
 `;
 
-export default typeDefs;
+// Crear el schema ejecutable
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers: personaResolvers
+});
+
+export default schema; 

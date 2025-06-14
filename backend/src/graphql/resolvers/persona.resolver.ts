@@ -1,4 +1,4 @@
-import Persona from '../models/Persona';
+import Persona from '../../models/Persona';
 
 // Definir interfaces para los argumentos
 interface PersonaArgs {
@@ -26,8 +26,7 @@ interface PersonaUpdateArgs {
   };
 }
 
-// Resolvers para las operaciones GraphQL
-const resolvers = {
+export const personaResolvers = {
   Query: {
     // Obtener todas las personas
     personas: async () => {
@@ -70,6 +69,4 @@ const resolvers = {
       return true;
     }
   }
-};
-
-export default resolvers;
+}; 

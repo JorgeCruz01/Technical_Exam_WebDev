@@ -4,20 +4,17 @@ Sistema de Gestión de Personas - Examen Técnico GPX
 📖 Descripción del Proyecto
 ---------------------------
 
-Aplicación web full-stack para gestionar personas con operaciones CRUD completas desarrollada con Angular 19 y Node.js + GraphQL.
+Aplicación web full-stack para gestionar personas con operaciones CRUD completas desarrollada con Angular 19 y Node.js + GraphQL. El proyecto implementa una arquitectura modular y sigue las mejores prácticas de desarrollo.
 
 ### Requisitos Cumplidos ✅
 
 *   **Frontend**: Angular 19 con componentes standalone
-    
 *   **Backend**: Node.js con Express y GraphQL
-    
 *   **Base de Datos**: SQLite con Sequelize ORM
-    
 *   **Estado**: NgRx para manejo reactivo
-    
 *   **Estándares**: ES6+, TypeScript, RxJS
-    
+*   **Seguridad**: Variables de entorno y configuración por ambiente
+*   **Calidad**: ESLint y TypeScript strict mode
 
 🏗️ Arquitectura del Sistema
 ----------------------------
@@ -32,18 +29,31 @@ E --> F[Sequelize ORM]
 F --> G[(SQLite DB)]
 ```
 
-
 🛠️ Tecnologías y Versiones
 ---------------------------
 
 ### Entorno de Desarrollo
 
 *   **Node.js**: 20.18.3
-    
 *   **npm**: 11.4.0
-    
 *   **Angular CLI**: 19.2.12
-    
+
+### Backend Dependencies
+
+```json
+{
+  "dependencies": {
+    "@graphql-tools/schema": "8.3.13",
+    "apollo-server-express": "3.11.1",
+    "cors": "2.8.5",
+    "dotenv": "16.0.3",
+    "express": "4.18.2",
+    "graphql": "16.6.0",
+    "sequelize": "6.31.1",
+    "sqlite3": "5.1.6"
+  }
+}
+```
 
 ### Frontend Dependencies
 
@@ -64,13 +74,6 @@ F --> G[(SQLite DB)]
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "^19.2.12",
-    "@angular/cli": "^19.2.12",
-    "@angular/compiler-cli": "^19.2.0",
-    "@types/jasmine": "~5.1.0",
-    "typescript": "~5.7.2"
   }
 }
 ```
@@ -79,27 +82,34 @@ F --> G[(SQLite DB)]
 --------------------------
 
 ```json
-`technical-exam/ 
-├── backend/ 
-│ ├── src/ 
-│ │ ├── config/database.js 
-│ │ ├── models/Persona.js 
-│ │ ├── schema/ 
-│ │ │ ├── typeDefs.js 
-│ │ │ └── resolvers.js 
-│ │ └── index.ts 
-│ ├── package.json 
-│ └── tsconfig.json 
-├── frontend/ 
-│ ├── src/app/ 
-│ │ ├── components/ 
-│ │ ├── models/persona.model.ts 
-│ │ ├── services/persona.service.ts 
-│ │ ├── store/persona/ 
-│ │ ├── app.component.ts 
-│ │ └── app.config.ts 
-│ └── package.json 
-└── README.md`
+technical-exam/
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── database.ts
+│   │   │   └── environment.ts
+│   │   ├── graphql/
+│   │   │   ├── definitions/
+│   │   │   ├── inputs/
+│   │   │   ├── mutations/
+│   │   │   ├── queries/
+│   │   │   ├── resolvers/
+│   │   │   └── schema.ts
+│   │   ├── models/
+│   │   │   └── Persona.ts
+│   │   └── index.ts
+│   ├── .env
+│   ├── package.json
+│   └── tsconfig.json
+├── frontend-angular/
+│   ├── src/app/
+│   │   ├── components/
+│   │   ├── models/
+│   │   ├── services/
+│   │   ├── store/
+│   │   └── app.config.ts
+│   └── package.json
+└── README.md
 ```
 
 🚀 Instalación y Configuración
@@ -107,23 +117,31 @@ F --> G[(SQLite DB)]
 
 ### Backend
 
-```json
-npm install    
-npm run build    
-npm run dev    
-# http://localhost:3000
+1. Configurar variables de entorno:
+```bash
+# Crear archivo .env en la raíz del backend
+PORT=3000
+NODE_ENV=development
+DB_PATH=./database.sqlite
+GRAPHQL_PATH=/graphql
 ```
 
+2. Instalar dependencias y ejecutar:
+```bash
+cd backend
+npm install
+npm run dev
+# http://localhost:3000/graphql
+```
 
 ### Frontend
 
-```json
-frontend    
-npm install    
-ng serve       
+```bash
+cd frontend-angular
+npm install
+ng serve
 # http://localhost:4200
 ```
-
 
 ⚡ Funcionalidades Implementadas
 -------------------------------
@@ -131,204 +149,101 @@ ng serve
 ### GraphQL Operations
 
 #### Crear Persona
-
-```json
-CrearPersona($input: PersonaInput!) 
-{      
-    crearPersona(input: $input) 
-    {        
-        id 
-        nombres 
-        apellidoPaterno 
-        apellidoMaterno 
-        direccion 
-        telefono     
-    }    
+```graphql
+mutation CrearPersona($input: PersonaInput!) {
+  crearPersona(input: $input) {
+    id
+    nombres
+    apellidoPaterno
+    apellidoMaterno
+    direccion
+    telefono
+  }
 }
 ```
 
 #### Listar Personas
-
-```json
-ObtenerPersonas 
-{      
-    personas 
-    {        
-        id 
-        nombres 
-        apellidoPaterno 
-        apellidoMaterno 
-        direccion 
-        telefono      
-    }    
+```graphql
+query ObtenerPersonas {
+  personas {
+    id
+    nombres
+    apellidoPaterno
+    apellidoMaterno
+    direccion
+    telefono
+  }
 }
 ```
 
 #### Actualizar Persona
-
-```json
-ActualizarPersona($id: ID!, $input: PersonaInput!) 
-{      
-    actualizarPersona(id: $id, input: $input) 
-    {        
-        id nombres 
-        apellidoPaterno 
-        apellidoMaterno 
-        direccion 
-        telefono      
-    }    
+```graphql
+mutation ActualizarPersona($id: ID!, $input: PersonaInput!) {
+  actualizarPersona(id: $id, input: $input) {
+    id
+    nombres
+    apellidoPaterno
+    apellidoMaterno
+    direccion
+    telefono
+  }
 }
 ```
 
 #### Eliminar Persona
-
-```json
-EliminarPersona($id: ID!) 
-{      
-    eliminarPersona(id: $id)    
+```graphql
+mutation EliminarPersona($id: ID!) {
+  eliminarPersona(id: $id)
 }
 ```
 
-📊 Diagramas Técnicos
----------------------
-
-### Flujo de Datos NgRx
-
-```mermaid
-graph LR 
-A[Component] -- Dispatch Action --> B[Store] 
-B -- Trigger Effect --> C[Effects] 
-C -- HTTP Request --> D[GraphQL API] 
-D -- SQL Query --> E[Database] 
-E -- Result --> D 
-D -- Response --> C 
-C -- Success Action --> B 
-B -- State Update --> A
-```
-
-### Base de Datos
-
-```mermaid
-graph LR 
-A[Persona] --> B[id: INTEGER PK] 
-A --> C[nombres: STRING] 
-A --> D[apellidoPaterno: STRING] 
-A --> E[apellidoMaterno: STRING] 
-A --> F[direccion: STRING] 
-A --> G[telefono: STRING] 
-A --> H[createdAt: DATETIME] 
-A --> I[updatedAt: DATETIME]
-```
-
-🎯 Patrones Implementados
--------------------------
-
-### 1\. Componentes Standalone (Angular 19)
-
-```json
-Code@Component({      
-    selector: 'app-persona-list',      
-    standalone: true,      
-    imports: [CommonModule, FormsModule],      
-    templateUrl: './persona-list.component.html'    
-})
-```
-
-### 2\. NgRx con inject()
-
-```json
-class PersonaEffects 
-{      
-    private actions$ = inject(Actions);      
-    private personaService = inject(PersonaService);      
-    loadPersonas$ = createEffect(() => 
-    {        
-        return this.actions$.pipe(ofType(PersonaActions.loadPersonas),          
-        switchMap(() => this.personaService.getPersonas())        
-        );      
-    });    
-}
-```
-
-### 3\. Reactive Programming
-
-```json
-Búsqueda reactiva    
-filteredPersonas$ = combineLatest([this.store.select(selectAllPersonas), this.searchTerm$]).pipe(map(([personas, term]) => this.filterPersonas(personas, term));
-```  
-
-🧠 Decisiones Técnicas Clave
+🔒 Seguridad y Configuración
 ----------------------------
 
-### ¿Por qué Angular 19 Standalone?
+### Variables de Entorno
+El backend utiliza variables de entorno para configurar:
+- Puerto del servidor
+- Ambiente (desarrollo/producción)
+- Ruta de la base de datos
+- Ruta del endpoint GraphQL
 
-*   Mejor tree-shaking y performance
-    
-*   Eliminación de NgModules
-    
-*   Sintaxis moderna y menos boilerplate
-    
+### Configuración por Ambiente
+- **Desarrollo**: 
+  - Introspection habilitada
+  - Logs detallados
+  - Sincronización automática de la base de datos
+- **Producción**:
+  - Introspection deshabilitada
+  - Logs mínimos
+  - Mensajes de error genéricos
 
-### ¿Por qué GraphQL?
+🎯 Mejores Prácticas Implementadas
+---------------------------------
 
-*   Single endpoint /graphql
-    
-*   Tipado fuerte con schema
-    
-*   Prevención de over-fetching
-    
-*   Herramientas de desarrollo integradas
-    
+1. **Arquitectura Modular**
+   - Separación clara de responsabilidades
+   - Estructura GraphQL modular
+   - Resolvers organizados por funcionalidad
 
-### ¿Por qué NgRx?
+2. **Tipado Fuerte**
+   - TypeScript strict mode
+   - Interfaces y tipos definidos
+   - Validación de tipos en tiempo de compilación
 
-*   Estado predecible y debuggeable
-    
-*   Manejo de side-effects con Effects
-    
-*   Time-travel debugging
-    
-*   Patrón Redux probado
-    
+3. **Manejo de Errores**
+   - Errores tipados
+   - Mensajes de error personalizados
+   - Logging estructurado
 
-### ¿Por qué SQLite + Sequelize?
+4. **Seguridad**
+   - Variables de entorno
+   - Configuración por ambiente
+   - Validación de entrada
 
-*   Base de datos embebida sin configuración
-    
-*   ORM con validaciones y migraciones
-    
-*   Perfecto para desarrollo y demos
-    
-
-🔧 Comandos Útiles
-------------------
-
-### Backend
-
-```json
-# Desarrollo con hot reload    
-npm run build   
-# Compilar TypeScript    
-npm start       
-# Producción
-```  
-
-### Frontend
-
-```json
-# Desarrollo    
-ng build --prod            
-# Build producción    
-ng test                    
-# Tests unitarios
-```
-
-### GraphQL Code Code Playground
-
-*   Acceder a: [http://localhost:3000/graphql](http://localhost:3000/graphql)
-    
-*   Explorar schema y ejecutar queries
-    
+5. **Calidad de Código**
+   - ESLint para linting
+   - TypeScript para type checking
+   - Estructura de proyecto clara y organizada
 
 ✅ Características Destacadas
 ----------------------------
